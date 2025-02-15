@@ -44,7 +44,7 @@ class LoginPage(BaseActions): #El page de login hereda la clase BaseActions
             if val == title:
                 BaseActions.screenshot(self, "Validado el title de la web correctamente")
             else:
-                raise RuntimeError("No se mostro el title del Login Page como se esperaba")
+                raise RuntimeError("No se mostro el title del Login Page como se esperaba o la url no es la correcta")
         else:
             raise RuntimeError(f"El dato ingresado como Title no es correcto o esta vacio:"
                                f" {title if title != '' else 'Empty'}")
@@ -61,3 +61,22 @@ class LoginPage(BaseActions): #El page de login hereda la clase BaseActions
             BaseActions.screenshot(self, "Se Inicio sesion correctamente")
         else:
             raise RuntimeError("No se mostro los textos de Recarga y Lotería indicativo de login exitoso")
+
+
+    def CheckAlertInvalidCredentials(self):
+        val = BaseActions.findElementIsDisplayed(self, lp.locatorAlertInvalidCredential[0],
+                                                 lp.locatorAlertInvalidCredential[1], 3)
+
+        if val:
+            BaseActions.screenshot(self, "Se Mostro alerta correctamente")
+        else:
+            raise RuntimeError("No se mostro los textos de credenciales incorrectas")
+
+    def CheckAlertUserNonExistent(self):
+        val = BaseActions.findElementIsDisplayed(self, lp.locatorAlertUserNonExistent[0],
+                                                 lp.locatorAlertUserNonExistent[1], 3)
+
+        if val:
+            BaseActions.screenshot(self, "Se Mostro alerta correctamente")
+        else:
+            raise RuntimeError("No se mostro los textos de usuario no existente")
