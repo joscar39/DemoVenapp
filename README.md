@@ -104,27 +104,44 @@ De tal forma que la estructura designada es de la siguiente manera:
  
 4. (**support**): contiene archivos de soporte sobre metodos y funciones utilizados en el codigo.     
    - BaseActions.py: Archivo que contiene todas las acciones globales del proyecto, creados en métodos que serán instanciados por las diferentes funciones de Page.    
-   - CreateDriver.py: Archivo que crea la instancia del driver o manejador web que sera utilizado por el proyecto.
-   - WebDriverFactory.py: Archivo que construye la instanciación de la libreria webdriver-manager, la cual permite levantar el navegador segun la data configurada para el proyecto desde la carpeta config.py.
+   - Exceptions.py: Archivo con clase de exceptions personalizados que permitan dar mayor precision en la información de errores detectados
+   - CreateDriver.py: Archivo que crea la instancia del driver o manejador web que será utilizado por el proyecto.
+   - WebDriverFactory.py: Archivo que construye la instanciación de la libreria webdriver-manager, la cual permite levantar el navegador según la data configurada para el proyecto desde la carpeta config.py.
    - GeneralLocator.py: Archivo donde se alojan las clases que alojan los objetos de tipo localizadores distribuidos por page.
 5. (**requirements.txt**): Archivo que contiene las dependencias y librerias necesarias para ejecutar el proyecto.
-
+6. (**behave.ini**): Este archivo permite personalizar el comportamiento de Behave y definir opciones específicas para la ejecución de las pruebas.
 
 # Ejecutar y Construir reporte allure
+
+Es necesario para ejecutar los test que se abra una consola terminar bien sea desde el mismo IDE
+
+Los comandos a utilizar para correr los test segun la necesidad del usuario son:
+
 
 Para correr todos los features creados:
 
       behave --no-skipped --no-capture
 
-para correr un solo feature en especifico:
+Para correr un solo feature en específico:
 
-      behave .\features\test\<Nombre del archivo.feature a ejecutar> --no-skipped --no-capture
+      behave '.\features\tests\01Login' --no-skipped --no-capture
 
-Para Correr un grupo de pruebas bajo una etiqueta o decorador previamente definido (regression, smoke, integration, etc) se debe ejecutar:
+Para Correr un grupo de pruebas bajo una etiqueta o decorador previamente definido (regression, smoke, integration, test, etc) se debe ejecutar:
 
       behave --tags=<Nombre del decorador o etiqueta usado> --no-skipped --no-capture
 
-Generar el reporte Allure, se debera ejecutar:
+* Nota: las etiquetas que están creadas en el proyecto son:
+    *   @test1: Escenario de login exitoso
+    *   @test2: Escenario de login fallido
+    *   @test3: Busqueda de productos
+    *   @test4: Agregar producto al carrito
+    *   @test5: Validar total del carrito
+
+El comando final para ejecutar los test bajo etiquetas es:
+
+        behave --tags=@test1 --no-skipped --no-capture
+
+Generar el reporte Allure, se debera ejecutar en la terminal del proyecto:
 
       allure serve allure-results/
 
