@@ -54,20 +54,36 @@ def step_impl(context, NumberPhone):
         message_fail = f"Fallo el step al intentar \n El motivo: {ex}"
         raise ErrorStepException(message_fail)
 
-@when(u'Hacer click en el campo select de monto a recargar: "{Amount}"')
-def step_impl(context, Amount):
+@when(u'Hacer click en el campo select de monto a recargar: "{Amount}", "{Promotion}"')
+def step_impl(context, Amount, Promotion):
     try:
-        #Obtener la posicion index del monto respecto a lista del select y el monto en formato string
-        context.nearest_amount = BaseActions.getNearestAmountOptions(Amount, context.value_telemarketer)
-        context.application.RechargerPage.ClickOnInputSelectAmount(context.nearest_amount)
+
+        #Obtener el monto más cercano a las opciones de recarga y el monto de promocion en caso que si aplica
+        context.nearest_amount = BaseActions.getNearestAmountOptions(Amount, context.value_telemarketer, Promotion)
+        context.check_amount = None
+        if str(Promotion).lower() == "yes":
+            # Actualizar la variable nearest_amount con el monto seleccionado más la suma de la promocion aplicada
+            context.check_amount = context.nearest_amount[1]
+            # Envia monto a seleccionar en la lista de opciones cuando hay promociones activas
+            context.application.RechargerPage.ClickOnInputSelectAmount(context.nearest_amount[0])
+        else:
+            # Actualizar la variable nearest_amount solo con el monto seleccionado en la lista de opciones
+            context.check_amount = context.nearest_amount
+            # Envia monto a seleccionar en la lista de opciones cuando no hay promociones activas
+            context.application.RechargerPage.ClickOnInputSelectAmount(context.nearest_amount)
+
+
     except Exception as ex:
         message_fail = f"Fallo el step al intentar \n El motivo: {ex}"
         raise ErrorStepException(message_fail)
 
-@then(u'Validar monto en en campo de total de recarga')
+@then(u'Validar monto en el campo de total de recarga')
 def step_impl(context):
     try:
-        context.application.RechargerPage.CheckAmountChargeCorrectly(context.nearest_amount)
+        if context.check_amount is not None:
+            context.application.RechargerPage.CheckAmountChargeCorrectly(context.check_amount)
+        else:
+            raise RuntimeError(f"El valor de monto a verificar es Nulo: {context.check_amount}")
     except Exception as ex:
         message_fail = f"Fallo el step al intentar \n El motivo: {ex}"
         raise ErrorStepException(message_fail)

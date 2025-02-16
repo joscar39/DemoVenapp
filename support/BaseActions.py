@@ -114,22 +114,23 @@ class BaseActions:
             raise RuntimeError(message) from e
 
     @staticmethod
-    def getNearestAmountOptions(entered_amount, telemarketer):
+    def getNearestAmountOptions(Entered_amount, Telemarketer, Promotion):
         """
         Encuentra el monto más cercano al ingresado por el usuario
         dentro de una lista de montos disponibles para el pago de recargas.
 
         Args:
-            entered_amount: El monto ingresado por el usuario (puede ser decimal).
-            telemarketer: Teleoperador seleccionado.
+            Entered_amount: El monto ingresado por el usuario (puede ser decimal).
+            Telemarketer: Teleoperador seleccionado.
+            Promotion: Indicador si el teleoperador tiene habilitado promociones de recarga
 
         Returns:
-            El monto más cercano al ingresado por el usuario (cadena de texto),
+            El monto más cercano al ingresado por el usuario (cadena de texto) y un monto de promocion si aplica si no envia 0
             o un mensaje de error si el monto ingresado no es válido.
         """
 
         try:
-            entered_amount = float(entered_amount)  # Convertir a número (maneja decimales)
+            entered_amount = float(Entered_amount)  # Convertir a número (maneja decimales)
         except ValueError:
             return "Error: Monto ingresado no válido."
 
@@ -137,11 +138,11 @@ class BaseActions:
             return "Error: Monto ingresado debe ser mayor o igual a 0."
 
         available_amounts = None
-        if telemarketer == "1":
+        if Telemarketer == "1":
             available_amounts = Datatest.LIST_AMOUNT_DIGITEL
-        elif telemarketer == "2":
+        elif Telemarketer == "2":
             available_amounts = Datatest.LIST_AMOUNT_MOVISTAR
-        elif telemarketer == "3":
+        elif Telemarketer == "3":
             available_amounts = Datatest.LIST_AMOUNT_MOVILNET
 
         if available_amounts is not None:
@@ -150,7 +151,16 @@ class BaseActions:
 
             # Retorna el indice del valor menor en la lista de differences
             index_of_min_difference = differences.index(min(differences))
-            return str(available_amounts[index_of_min_difference])
+            add_promotion = None
+            if str(Promotion).lower() == "yes":
+
+                add_promotion = (index_of_min_difference + 1) * Datatest.PROMOTION_RECHARGE #Agregar +1 para compensar posicion cero
+
+                sum_promotion = int(available_amounts[index_of_min_difference]) + add_promotion
+
+                return str(available_amounts[index_of_min_difference]), str(sum_promotion)
+            else:
+                return str(available_amounts[index_of_min_difference])
         else:
             raise RuntimeError("la opcion de teleoperador seleccionado no existe en la lista disponible")
 

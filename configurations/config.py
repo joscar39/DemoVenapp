@@ -19,6 +19,9 @@ class Datatest:
     LIST_AMOUNT_MOVILNET = [60, 120, 180, 240, 300, 360, 420, 480]
     LIST_AMOUNT_DIGITEL = [50, 100, 150, 200, 250, 300, 350, 400]
 
+    #Monto promocional por recargar
+    PROMOTION_RECHARGE = 30
+
     #Diccionario de textos corregidos de tipo de servicios
     SYNTAX_TYPE_SERVICE = {
         "movil": "Móvil",
