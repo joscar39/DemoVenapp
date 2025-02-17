@@ -31,3 +31,5 @@ class LocatorsRechargePage:
     locatorInputSelectAmount = (By.XPATH, "//div[@id='mui-component-select-amount']")
     locatorOptionListAmount = (By.XPATH, "//li//p[text()='Bs.{}']")
     locatorCheckTotalAmount = (By.XPATH, "//h5[contains(text(),'Total de la recarga')]/following-sibling::h5[contains(.,'Bs.{}')]")
+    locatorButtonRecharge = (By.XPATH, "//div/p[contains(text(), 'RECARGAR')]")
+    locatorCheckRedirectionPaymentGateway = (By.XPATH, "//h6[contains(text(), 'Método de pago')]")

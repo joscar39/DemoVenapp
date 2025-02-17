@@ -76,6 +76,10 @@ class RechargerPage(BaseActions):
             raise RuntimeError(f"El dato ingresado como Monto a seleccionar en la lista para recargar no es correcto o esta vacio:"
                                f" {amount if amount != '' else 'Empty'}")
 
+    def CLickOnButtonRecharge(self):
+        BaseActions.clickOnElementBySelector(self, rep.locatorButtonRecharge[0],
+                                             rep.locatorButtonRecharge[1], 3)
+
 
 
     """
@@ -94,3 +98,19 @@ class RechargerPage(BaseActions):
             raise RuntimeError(f"El dato ingresado como Monto a recargar no es correcto o esta vacio:"
                                f" {amount if amount != '' else 'Empty'}")
 
+
+    def CheckRedirectionToPaymentGateway(self):
+        val = BaseActions.findElementIsDisplayed(self, rep.locatorCheckRedirectionPaymentGateway[0],
+                                                 rep.locatorCheckRedirectionPaymentGateway[1], 3)
+        if val:
+            BaseActions.screenshot(self, "Se mostro la pasarela de pago exitosamente")
+        else:
+            raise RuntimeError("No se muestra el texto validador de la pantala de pasarela de pago")
+
+    def CheckAmountTotalRecharge(self, amount):
+        formatted_amount = rep.locatorCheckTotalAmount[1].format(amount)
+        val = BaseActions.findElementIsDisplayed(self, rep.locatorCheckTotalAmount[0], formatted_amount, 3)
+        if val:
+            BaseActions.screenshot(self, "El monto total a recargar coincide con el visualizado al seleccionar producto")
+        else:
+            raise RuntimeError("El monto indicado no coincide con el visualizado en la seleccion del producto")

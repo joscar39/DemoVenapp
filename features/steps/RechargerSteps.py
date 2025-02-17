@@ -54,7 +54,7 @@ def step_impl(context, NumberPhone):
         message_fail = f"Fallo el step al intentar \n El motivo: {ex}"
         raise ErrorStepException(message_fail)
 
-@when(u'Hacer click en el campo select de monto a recargar: "{Amount}", "{Promotion}"')
+@when(u'Seleccionar monto a recargar: "{Amount}", "{Promotion}"')
 def step_impl(context, Amount, Promotion):
     try:
 
@@ -74,7 +74,7 @@ def step_impl(context, Amount, Promotion):
 
 
     except Exception as ex:
-        message_fail = f"Fallo el step al intentar \n El motivo: {ex}"
+        message_fail = f"Fallo el step al intentar seleccionar un monto a recargar\n El motivo: {ex}"
         raise ErrorStepException(message_fail)
 
 @then(u'Validar monto en el campo de total de recarga')
@@ -85,5 +85,33 @@ def step_impl(context):
         else:
             raise RuntimeError(f"El valor de monto a verificar es Nulo: {context.check_amount}")
     except Exception as ex:
-        message_fail = f"Fallo el step al intentar \n El motivo: {ex}"
+        message_fail = f"Fallo el step al intentar validar el monto en el campo de total a recargar\n El motivo: {ex}"
+        raise ErrorStepException(message_fail)
+
+
+@when(u'Pulsar boton recargar')
+def step_impl(context):
+    try:
+        context.application.RechargerPage.CLickOnButtonRecharge()
+    except Exception as ex:
+        message_fail = f"Fallo el step al intentar pulsar el boton de recargar\n El motivo: {ex}"
+        raise ErrorStepException(message_fail)
+
+@then(u'Validar redireccion al carrito de compras')
+def step_impl(context):
+    try:
+        context.application.RechargerPage.CheckRedirectionToPaymentGateway()
+    except Exception as ex:
+        message_fail = f"Fallo el step al intentar validar la redireccion al checkout del carrito de compras\n El motivo: {ex}"
+        raise ErrorStepException(message_fail)
+
+@then(u'Confirmar que el monto total de la recarga sea el mismo al seleccionar el producto')
+def step_impl(context):
+    try:
+        if context.check_amount is not None:
+            context.application.RechargerPage.CheckAmountTotalRecharge(context.check_amount)
+        else:
+            raise RuntimeError(f"El valor de monto a verificar es Nulo: {context.check_amount}")
+    except Exception as ex:
+        message_fail = f"Fallo el step al intentar confirmar el monto total a recargar en la pasarela de pago\n El motivo: {ex}"
         raise ErrorStepException(message_fail)
