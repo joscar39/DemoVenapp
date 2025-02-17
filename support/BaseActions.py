@@ -164,42 +164,6 @@ class BaseActions:
         else:
             raise RuntimeError("la opcion de teleoperador seleccionado no existe en la lista disponible")
 
-    ######################## ACTIONS CHAINS ############################################
-
-    def sendKeysActions(self, by_type: str, selector: str, key_action: list or str, seconds: float):
-        """
-        Metodo que permite enviar acciones de teclado sobre un input a traves de localizador por selectores
-
-        :param by_type: tipo de atributo BY a utilizar (XPATH, ID, CSS, ETC)
-        :param selector: Localizador utilizado para identificar el selector
-        :param key_action: Tecla a enviar (Por ejemplo, Keys.DOWN, Keys.ENTER, Keys.CONTROL + 'c', etc), para ver mas contenido de comandos de Keys acceder a la documentacion de la libreria: https://www.selenium.dev/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html
-        :param seconds: segundos que tardara el metodo en esperar que el input este presente
-        """
-
-        try:
-            ele = None
-            ele = WebDriverWait(self.driver, seconds).until(EC.visibility_of_element_located((by_type, selector)))
-
-            if isinstance(key_action, list):  # Maneja múltiples acciones
-                for key_action in key_action:
-                    self.action.send_keys_to_element(ele,
-                                                     key_action).perform()  # Se envia la accion sin importar si es string o key
-                print(f"Se realizaron la acciones de taclado: {','.join(key_action)}")
-                allure.attach(f"Se realizaron la acciones de taclado: {','.join(key_action)}")
-            else:  # Maneja una sola acción
-                self.action.send_keys_to_element(ele,
-                                                 key_action).perform()  # Se envia la accion sin importar si es string o key
-                print(f"Se realizo la accion de taclado: {key_action}")
-                allure.attach(f"Se realizo la accion de taclado: {key_action}", "Envio de taclado")
-        except (NoSuchElementException, ElementNotInteractableException, TimeoutException) as e:
-            message = f"No se pudo interactuar con el input:\nElemento: {selector} (tipo: {by_type})\nLog: {traceback.format_exc()}"
-            raise RuntimeError(message) from e
-        except WebDriverException as e:
-            message = f"Error general de WebDriver al enviar texto:\nElemento: {selector} (tipo: {by_type})\nLog: {traceback.format_exc()}"
-            raise RuntimeError(message) from e
-        except Exception as e:
-            message = f"Error desconocido al enviar texto:\nElemento: {selector} (tipo: {by_type})\nLog: {traceback.format_exc()}"
-            raise RuntimeError(message) from e
 
     #################### CLICK ON ELEMENT #################################################
 
