@@ -132,7 +132,8 @@ Para Correr un grupo de pruebas bajo una etiqueta o decorador previamente defini
 
 * Nota: las etiquetas que están creadas en el proyecto son:
     *   @test1: Escenario de login exitoso
-    *   @test2: Escenario de login fallido
+    *   @test2.0: Escenario de login fallido (Contraseña errada)
+    *   @test2.1: Escenario de login fallido (Correo inexistente)
     *   @test3: Busqueda de productos
     *   @test4: Agregar producto al carrito
     *   @test5: Validar total del carrito

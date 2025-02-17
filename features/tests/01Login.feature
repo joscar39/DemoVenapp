@@ -15,8 +15,8 @@ Feature: Login
       | Ven App    | automation@yopmail.com | Aa123456.  |
 
   @test2.0
-  Scenario Outline: TC-LP004 - Login Iniciar sesion fallido con datos invalidos
-    # TC-LP004 - Login Iniciar sesion fallido con datos invalidos
+  Scenario Outline: TC-LP004 - Login Iniciar sesion fallido con credenciales invalidas
+    # TC-LP004 - Login Iniciar sesion fallido con credenciales invalidas
     Given Acceder a la URL del aplicativo Venapp
     Then Mostrar la URL acorde al modulo de login de la web VenApp con el title:"<Title>"
     When Ingresar correo en el campo email: "<Email>"
@@ -29,8 +29,8 @@ Feature: Login
       | Ven App    | automation@yopmail.com | 123456  |
 
   @test2.1
-  Scenario Outline: TC-LP004 - Login Iniciar sesion fallido con datos invalidos
-    # TC-LP004 - Login Iniciar sesion fallido con datos invalidos
+  Scenario Outline: TC-LP005 - Login Iniciar sesion fallido con credenciales inexistentes
+    # TC-LP005 - Login Iniciar sesion fallido con credenciales inexistentes
     Given Acceder a la URL del aplicativo Venapp
     Then Mostrar la URL acorde al modulo de login de la web VenApp con el title:"<Title>"
     When Ingresar correo en el campo email: "<Email>"
