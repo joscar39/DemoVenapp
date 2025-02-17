@@ -1,5 +1,5 @@
 from support.BaseActions import BaseActions
-from support.GeneralLocators import LoginPage as lp
+from support.GeneralLocators import LocatorsLoginPage as lp
 
 class LoginPage(BaseActions): #El page de login hereda la clase BaseActions
 

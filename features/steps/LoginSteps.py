@@ -52,3 +52,19 @@ def step_impl(context):
         message_fail = f"Fallo el step al intentar validar el login exitoso y la redireccion al home \n El motivo: {ex}"
         raise ErrorStepException(message_fail)
 
+@then(u'Verificar que se muestre alerta de credenciales invalidas')
+def step_impl(context):
+    try:
+        context.application.LoginPage.CheckAlertInvalidCredentials()
+    except Exception as ex:
+        message_fail = f"Fallo el step al intentar validar las alertas de credenciales invalidas \n El motivo: {ex}"
+        raise ErrorStepException(message_fail)
+
+
+@then(u'Verificar que se muestre alerta de Email no registrado como usuario')
+def step_impl(context):
+    try:
+        context.application.LoginPage.CheckAlertUserNonExistent()
+    except Exception as ex:
+        message_fail = f"Fallo el step al intentar validar las alertas de credenciales invalidas \n El motivo: {ex}"
+        raise ErrorStepException(message_fail)
